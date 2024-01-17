@@ -4,7 +4,7 @@ import { addRows } from "./post-data.js";
 
 async function main() {
   const userList = [];
-  const totalFetchCount = 100;
+  const totalFetchCount = 500;
 
   let updatedCursor = "";
 

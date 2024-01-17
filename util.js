@@ -41,10 +41,13 @@ async function delay(ms) {
 const parseList = (list) => {
   const parsedList = list.map((item) => {
     const user = item.content.itemContent.user_results.result.legacy;
+    const verified =
+      item.content.itemContent.user_results.result.is_blue_verified;
     return {
       name: user.name || "N/A",
       username: user.screen_name || "N/A",
-      verified: user.verified ? "Yes" : "No",
+      verified: verified ? "Yes" : "No",
+      profile_link: `https://twitter.com/${user.screen_name}`,
       profile_image_url: user.profile_image_url_https,
       description: user.description || "N/A",
       created_at: user.created_at || "N/A",

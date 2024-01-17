@@ -42,9 +42,15 @@ const params = (userId, cursor, count) => {
   return _params;
 };
 
-const graphqlId = process.env.GRAPHQL_ID || "uDL0lnVlTqHxp3EWjWYpiA";
+const graphqlId = "uDL0lnVlTqHxp3EWjWYpiA";
+const verifiedOnlyGraphqlId = "M9dWppfijGs144psADG8jQ";
 
-const url = `https://twitter.com/i/api/graphql/${graphqlId}/Followers?`;
+const onlyVerified = process.env.VERIFIED_ONLY?.toLowerCase() === "true";
+
+let url = `https://twitter.com/i/api/graphql/${graphqlId}/Followers?`;
+
+if (onlyVerified)
+  url = `https://twitter.com/i/api/graphql/${verifiedOnlyGraphqlId}/BlueVerifiedFollowers?`;
 
 const NEXUS_MUTUAL_ID = "889753804614369281";
 

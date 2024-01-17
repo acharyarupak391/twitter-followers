@@ -33,6 +33,7 @@ const addRows = async (parsedList) => {
     item.name,
     item.username,
     item.verified,
+    item.profile_link,
     item.profile_image_url,
     item.description,
     item.created_at,
