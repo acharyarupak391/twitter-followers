@@ -1,0 +1,19 @@
+{
+  "name": "twitter-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "update": "node index.js",
+    "preinstall": "bash key_setup.sh -d",
+    "encrypt": "bash key_setup.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "googleapis": "^131.0.0",
+    "node-fetch": "^3.3.2"
+  }
+}
