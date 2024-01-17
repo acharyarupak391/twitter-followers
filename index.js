@@ -15,10 +15,10 @@ async function main() {
       count
     );
 
-    if (!cursor || list.length === 0) break;
-
     updatedCursor = cursor;
     userList.push(...list);
+
+    if (!cursor || list.length === 0) break;
 
     // Delay for 5 seconds
     await delay(5000);

@@ -87,6 +87,13 @@ async function fetchFollowersAndCursor(cursor, count) {
         entry.content.cursorType === "Bottom"
     )?.content.value;
 
+    if (bottomCursor.startsWith("0|")) {
+      return {
+        cursor: "",
+        list: usersOnly,
+      };
+    }
+
     return {
       cursor: bottomCursor,
       list: usersOnly,
