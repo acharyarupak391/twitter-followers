@@ -48,14 +48,14 @@ const parseList = (list) => {
       username: user.screen_name || "N/A",
       verified: verified ? "Yes" : "No",
       profile_link: `https://twitter.com/${user.screen_name}`,
-      profile_image_url: user.profile_image_url_https,
-      description: user.description || "N/A",
-      created_at: user.created_at || "N/A",
+      // profile_image_url: user.profile_image_url_https,
+      // description: user.description || "N/A",
+      // created_at: user.created_at || "N/A",
       location: user.location || "N/A",
-      followers_count: user.followers_count || "N/A",
-      friends_count: user.friends_count || "N/A",
-      media_count: user.media_count || "N/A",
-      statuses_count: user.statuses_count || "N/A",
+      // followers_count: user.followers_count || "N/A",
+      // friends_count: user.friends_count || "N/A",
+      // media_count: user.media_count || "N/A",
+      // statuses_count: user.statuses_count || "N/A",
     };
   });
 

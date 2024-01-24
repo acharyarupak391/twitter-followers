@@ -29,20 +29,21 @@ const addRows = async (parsedList) => {
 
   // Values to be inserted - a 2D array of values
   // Convert parsedList to a 2D array of values
-  const values = parsedList.map((item) => [
-    item.name,
-    item.username,
-    item.verified,
-    item.profile_link,
-    item.profile_image_url,
-    item.description,
-    item.created_at,
-    item.location,
-    item.followers_count,
-    item.friends_count,
-    item.media_count,
-    item.statuses_count,
-  ]);
+  const values = parsedList
+    .map((item) => [
+      item.name,
+      item.username,
+      item.verified,
+      item.profile_link,
+      item.profile_image_url,
+      item.description,
+      item.created_at,
+      item.location,
+      item.followers_count,
+      item.friends_count,
+      item.media_count,
+      item.statuses_count,
+    ])
 
   const resource = {
     values,

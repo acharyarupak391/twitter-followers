@@ -59,9 +59,9 @@ const cookie = process.env.COOKIE;
 const clientUUID = process.env.X_CLIENT_UUID;
 const csfrToken = process.env.X_CSRF_TOKEN;
 
-async function fetchFollowersAndCursor(cursor, count) {
+async function fetchFollowersAndCursor(cursor, count, twitterId) {
   const fullUrl = new URL(
-    createUrl(params(NEXUS_MUTUAL_ID, cursor, count)),
+    createUrl(params(twitterId || NEXUS_MUTUAL_ID, cursor, count)),
     url
   );
 
@@ -105,7 +105,7 @@ async function fetchFollowersAndCursor(cursor, count) {
       list: usersOnly,
     };
   } catch (err) {
-    console.error(err);
+    console.error(err, "\nLast cursor: ", cursor);
   }
   return { cursor: "", list: [] };
 }
