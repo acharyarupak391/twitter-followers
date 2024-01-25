@@ -1,13 +1,11 @@
 import { fetchFollowersAndCursor } from "./fetch.js";
 import { delay, parseList } from "./util.js";
 import { addRows } from "./post-data.js";
+import { DEFAULT_FETCH_COUNT, NEXUS_MUTUAL_ID, UPLOAD_THRESHOLD } from "./constants.js";
 
-const DEFAULT_FETCH = 1000;
-const UPLOAD_THRESHOLD = 1000;
-
-async function main(initialCursor = "", userId, fetchAll = false) {
+async function main(initialCursor = "", userId, fetchAll = false, uploadThreshold) {
   const userList = [];
-  const totalFetchCount = fetchAll ? 10000000 : DEFAULT_FETCH;
+  const totalFetchCount = fetchAll ? 10000000 : DEFAULT_FETCH_COUNT;
 
   let updatedCursor = initialCursor;
   let totalLength = 0;
@@ -25,7 +23,7 @@ async function main(initialCursor = "", userId, fetchAll = false) {
     totalLength += list.length;
     console.log(`Fetched ${totalLength} users...`);
 
-    if (userList.length >= UPLOAD_THRESHOLD) {
+    if (userList.length >= uploadThreshold) {
       console.log(`\nAdding to google sheets...\nCursor: ${cursor}\n`);
 
       addRows(parseList(userList));
@@ -45,21 +43,28 @@ async function main(initialCursor = "", userId, fetchAll = false) {
 }
 
 let initialCursor = "";
-let userId = "";
+let userId = NEXUS_MUTUAL_ID;
 let fetchAll = false;
+let upload = UPLOAD_THRESHOLD
 
 for (let i = 2; i < process.argv.length; i++) {
-  if (process.argv[i].startsWith("--cursor")) {
-    initialCursor = process.argv[i].split("=")[1];
+  const arg = process.argv[i]
+
+  if (arg.startsWith("--cursor")) {
+    initialCursor = arg.split("=")[1];
   }
 
-  if (process.argv[i].startsWith("--id")) {
-    userId = process.argv[i].split("=")[1];
+  if (arg.startsWith("--id")) {
+    userId = arg.split("=")[1];
   }
 
-  if (process.argv[i].startsWith("--all")) {
+  if (arg.startsWith("--all")) {
     fetchAll = true;
+  }
+
+  if (arg.startsWith("--upload-count")) {
+    upload = arg.split("=")[1];
   }
 }
 
-main(initialCursor, userId, fetchAll);
+main(initialCursor, userId, fetchAll, upload);

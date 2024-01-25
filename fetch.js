@@ -2,9 +2,9 @@ import fetch from "node-fetch";
 
 import { config } from "dotenv";
 import { createUrl } from "./util.js";
+import { MAX_FETCH_COUNT, graphqlId, verifiedOnlyGraphqlId } from "./constants.js";
 config();
 
-const MAX_FETCH_COUNT = 69;
 const params = (userId, cursor, count) => {
   const _params = {
     variables: {
@@ -42,9 +42,6 @@ const params = (userId, cursor, count) => {
   return _params;
 };
 
-const graphqlId = "uDL0lnVlTqHxp3EWjWYpiA";
-const verifiedOnlyGraphqlId = "M9dWppfijGs144psADG8jQ";
-
 const onlyVerified = process.env.VERIFIED_ONLY?.toLowerCase() === "true";
 
 let url = `https://twitter.com/i/api/graphql/${graphqlId}/Followers?`;
@@ -52,7 +49,6 @@ let url = `https://twitter.com/i/api/graphql/${graphqlId}/Followers?`;
 if (onlyVerified)
   url = `https://twitter.com/i/api/graphql/${verifiedOnlyGraphqlId}/BlueVerifiedFollowers?`;
 
-const NEXUS_MUTUAL_ID = "889753804614369281";
 
 const bearerToken = process.env.BEARER_TOKEN;
 const cookie = process.env.COOKIE;
@@ -61,7 +57,7 @@ const csfrToken = process.env.X_CSRF_TOKEN;
 
 async function fetchFollowersAndCursor(cursor, count, twitterId) {
   const fullUrl = new URL(
-    createUrl(params(twitterId || NEXUS_MUTUAL_ID, cursor, count)),
+    createUrl(params(twitterId, cursor, count)),
     url
   );
 
@@ -105,7 +101,8 @@ async function fetchFollowersAndCursor(cursor, count, twitterId) {
       list: usersOnly,
     };
   } catch (err) {
-    console.error(err, "\nLast cursor: ", cursor);
+    // console.error(err, "\nLast cursor: ", cursor);
+    console.error(err);
   }
   return { cursor: "", list: [] };
 }
