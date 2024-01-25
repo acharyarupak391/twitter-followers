@@ -52,8 +52,8 @@ const parseList = (list) => {
       // description: user.description || "N/A",
       // created_at: user.created_at || "N/A",
       location: user.location || "N/A",
-      // followers_count: user.followers_count || "N/A",
-      // friends_count: user.friends_count || "N/A",
+      followers_count: user.followers_count || "N/A",
+      friends_count: user.friends_count || "N/A",
       // media_count: user.media_count || "N/A",
       // statuses_count: user.statuses_count || "N/A",
     };

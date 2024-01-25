@@ -2,7 +2,12 @@ import fetch from "node-fetch";
 
 import { config } from "dotenv";
 import { createUrl } from "./util.js";
-import { MAX_FETCH_COUNT, graphqlId, verifiedOnlyGraphqlId } from "./constants.js";
+import {
+  MAX_FETCH_COUNT,
+  graphqlId,
+  verifiedOnlyGraphqlId,
+} from "./constants.js";
+
 config();
 
 const params = (userId, cursor, count) => {
@@ -49,17 +54,13 @@ let url = `https://twitter.com/i/api/graphql/${graphqlId}/Followers?`;
 if (onlyVerified)
   url = `https://twitter.com/i/api/graphql/${verifiedOnlyGraphqlId}/BlueVerifiedFollowers?`;
 
-
 const bearerToken = process.env.BEARER_TOKEN;
 const cookie = process.env.COOKIE;
 const clientUUID = process.env.X_CLIENT_UUID;
 const csfrToken = process.env.X_CSRF_TOKEN;
 
 async function fetchFollowersAndCursor(cursor, count, twitterId) {
-  const fullUrl = new URL(
-    createUrl(params(twitterId, cursor, count)),
-    url
-  );
+  const fullUrl = new URL(createUrl(params(twitterId, cursor, count)), url);
 
   try {
     const headers = {
@@ -73,7 +74,7 @@ async function fetchFollowersAndCursor(cursor, count, twitterId) {
     const response = await fetch(fullUrl, { headers });
 
     if (!response.ok) {
-      console.error(`HTTP error! status: ${response.ok}`);
+      console.error(`HTTP error! status: ${response.ok}\n`);
     }
 
     const data = await response.json();
