@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "fetch": "node index.js",
+    "start": "node index.js",
     "preinstall": "bash key_setup.sh -d",
     "encrypt": "bash key_setup.sh"
   },

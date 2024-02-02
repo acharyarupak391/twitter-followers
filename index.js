@@ -44,9 +44,12 @@ async function main(
   }
 
   if (userList.length) {
+    console.log(`\nAdding to google sheets...\nCursor: ${updatedCursor}\n`);
     const parsedList = parseList(userList);
     addRows(parsedList);
   }
+
+  console.log(`Done fetching ${totalFetched} users.`);
 }
 
 const { cursor, userId, fetchAll, fetchCount, uploadThreshold, minDelay } =
