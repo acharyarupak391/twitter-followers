@@ -2,7 +2,6 @@ import { Command } from "commander";
 import {
   DEFAULT_FETCH_COUNT,
   MIN_DELAY,
-  NEXUS_MUTUAL_ID,
   UPLOAD_THRESHOLD,
 } from "./constants.js";
 
@@ -10,7 +9,7 @@ const program = new Command();
 
 program
   .option("--cursor <value>", "Set the cursor value", "")
-  .option("--user-id <value>", "Set twitter user id", NEXUS_MUTUAL_ID)
+  .option("--user-id <value>", "Set twitter user id")
   .option("--all", "fetch all the followers?", false)
   .option(
     "--upload-count <value>",
