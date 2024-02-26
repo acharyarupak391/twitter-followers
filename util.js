@@ -1,3 +1,5 @@
+import fs from "fs";
+
 function createUrl(obj) {
   let str = [];
   for (let p in obj)
@@ -38,28 +40,79 @@ async function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const parseList = (list) => {
+const parseList = (list, fieldsArray) => {
   const parsedList = list.map((item) => {
     const user = item.content.itemContent.user_results.result.legacy;
     const verified =
       item.content.itemContent.user_results.result.is_blue_verified;
-    return {
+
+    const obj = {
       name: user.name || "N/A",
       username: user.screen_name || "N/A",
       verified: verified ? "Yes" : "No",
       profile_link: `https://twitter.com/${user.screen_name}`,
-      // profile_image_url: user.profile_image_url_https,
-      // description: user.description || "N/A",
-      // created_at: user.created_at || "N/A",
       location: user.location || "N/A",
       followers_count: user.followers_count ?? "N/A",
       friends_count: user.friends_count ?? "N/A",
-      // media_count: user.media_count ?? "N/A",
-      // statuses_count: user.statuses_count ?? "N/A",
+      profile_image_url: user.profile_image_url_https,
+      description: user.description || "N/A",
+      created_at: user.created_at || "N/A",
+      media_count: user.media_count ?? "N/A",
+      statuses_count: user.statuses_count ?? "N/A",
     };
+
+    Object.keys(obj).map((key) => {
+      if (!fieldsArray.includes(key)) {
+        delete obj[key];
+      }
+    });
+
+    return obj;
   });
 
   return parsedList;
 };
 
-export { createUrl, parseUrl, delay, parseList };
+function keyToTitle(key) {
+  return key
+    .replaceAll("_", " ")
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+const appendDataToCSV = (list, filename) => {
+  // create file if it doesn't exist
+  if (!fs.existsSync(filename)) {
+    fs.writeFileSync(filename, "");
+  }
+
+  const separator = ",";
+
+  let csv = list.map((row) => {
+    return Object.values(row)
+      .map((value) => {
+        if (typeof value === "string") {
+          return value.includes(separator) || value.includes("\n")
+            ? `"${value}"`
+            : value;
+        }
+        return value;
+      })
+      .join(separator);
+  });
+
+  // check if file is empty and append headers
+  if (fs.readFileSync(filename, "utf8").length === 0) {
+    const capitalizedKeys = Object.keys(list[0]).map((key) => keyToTitle(key));
+    csv.unshift(capitalizedKeys.join(separator));
+  }
+
+  csv = csv.join("\n") + "\n";
+
+  fs.appendFile(filename, csv, (err) => {
+    if (err) throw err;
+  });
+};
+
+export { createUrl, parseUrl, delay, parseList, appendDataToCSV };

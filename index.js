@@ -1,5 +1,5 @@
 import { fetchFollowersAndCursor } from "./fetch.js";
-import { delay, parseList } from "./util.js";
+import { appendDataToCSV, delay, parseList } from "./util.js";
 import { addRows } from "./post-data.js";
 import { args } from "./args.js";
 
@@ -9,7 +9,9 @@ async function main(
   fetchAll,
   fetchCount,
   uploadThreshold,
-  minDelay
+  minDelay,
+  csvFilename,
+  fieldsToSave
 ) {
   const userList = [];
   const totalFetchCount = fetchAll ? 10000000 : fetchCount;
@@ -31,9 +33,14 @@ async function main(
     console.log(`Fetched ${totalFetched} users...`);
 
     if (userList.length >= uploadThreshold) {
-      console.log(`\nAdding to google sheets...\nCursor: ${cursor}\n`);
+      console.log(
+        `\nAdding to ${csvFilename || "google sheets"}...\nCursor: ${cursor}\n`
+      );
 
-      addRows(parseList(userList));
+      const parsedList = parseList(userList, fieldsToSave);
+      csvFilename
+        ? appendDataToCSV(parsedList, csvFilename)
+        : addRows(parsedList);
       userList.splice(0, userList.length);
     }
 
@@ -44,15 +51,38 @@ async function main(
   }
 
   if (userList.length) {
-    console.log(`\nAdding to google sheets...\nCursor: ${updatedCursor}\n`);
-    const parsedList = parseList(userList);
-    addRows(parsedList);
+    console.log(
+      `\nAdding to ${
+        csvFilename || "google sheets"
+      }...\nCursor: ${updatedCursor}\n`
+    );
+    const parsedList = parseList(userList, fieldsToSave);
+    csvFilename
+      ? appendDataToCSV(parsedList, csvFilename)
+      : addRows(parsedList);
   }
 
   console.log(`Done fetching ${totalFetched} users.`);
 }
 
-const { cursor, userId, fetchAll, fetchCount, uploadThreshold, minDelay } =
-  args;
+const {
+  cursor,
+  userId,
+  fetchAll,
+  fetchCount,
+  uploadThreshold,
+  minDelay,
+  csvFilename,
+  fieldsToSave,
+} = args;
 
-main(cursor, userId, fetchAll, fetchCount, uploadThreshold, minDelay);
+main(
+  cursor,
+  userId,
+  fetchAll,
+  fetchCount,
+  uploadThreshold,
+  minDelay,
+  csvFilename,
+  fieldsToSave
+);

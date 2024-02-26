@@ -3,3 +3,5 @@ secret/*.json
 .env
 
 node_modules
+
+*.csv
