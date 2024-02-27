@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import {
   DEFAULT_FETCH_COUNT,
+  DEFAULT_FILENAME,
   MIN_DELAY,
   UPLOAD_THRESHOLD,
 } from "./constants.js";
@@ -26,7 +27,11 @@ program
     "Set minimum delay before making each request",
     MIN_DELAY
   )
-  .option("--csv-filename <value>", "Export to CSV instead of Google Sheets")
+  .option(
+    "--output <value>",
+    "Set the output filename for the CSV",
+    DEFAULT_FILENAME
+  )
   .option(
     "fields-to-save <value>",
     "Fields to save in the CSV. Comma separated list of fields",
@@ -42,7 +47,7 @@ const fetchAll = options.all;
 const uploadThreshold = Number(options.uploadCount);
 const minDelay = Number(options.minDelay);
 const fetchCount = Number(options.fetchCount);
-const csvFilename = options.csvFilename;
+const csvFilename = options.output;
 const fieldsToSave = options.fieldsToSave.split(",");
 
 const args = {

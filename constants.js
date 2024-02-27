@@ -7,6 +7,8 @@ const UPLOAD_THRESHOLD = 500;
 
 const MIN_DELAY = 30000;
 
+const DEFAULT_FILENAME = "export.csv";
+
 export {
   MAX_FETCH_COUNT,
   graphqlId,
@@ -14,4 +16,5 @@ export {
   DEFAULT_FETCH_COUNT,
   UPLOAD_THRESHOLD,
   MIN_DELAY,
+  DEFAULT_FILENAME,
 };

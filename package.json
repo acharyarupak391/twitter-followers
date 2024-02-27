@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "preinstall": "bash key_setup.sh -d",
+    "decrypt": "bash key_setup.sh -d",
     "encrypt": "bash key_setup.sh"
   },
   "author": "",
