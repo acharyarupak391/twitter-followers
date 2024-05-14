@@ -29,11 +29,10 @@ program
   )
   .option(
     "--output <value>",
-    "Set the output filename for the CSV",
-    DEFAULT_FILENAME
+    "Set the output filename for the CSV (if not provided, will upload to google sheets)"
   )
   .option(
-    "fields-to-save <value>",
+    "--fields-to-save <value>",
     "Fields to save in the CSV. Comma separated list of fields",
     "name,username,verified,profile_link,location,followers_count,friends_count,profile_image_url,description,created_at,media_count,statuses_count"
   )
