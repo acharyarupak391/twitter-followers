@@ -1,7 +1,6 @@
 import { Command } from "commander";
 import {
   DEFAULT_FETCH_COUNT,
-  DEFAULT_FILENAME,
   MIN_DELAY,
   UPLOAD_THRESHOLD,
 } from "./constants.js";
