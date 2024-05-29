@@ -41,34 +41,40 @@ async function delay(ms) {
 }
 
 const parseList = (list, fieldsArray) => {
-  const parsedList = list.map((item) => {
-    const user = item.content.itemContent.user_results.result.legacy;
-    const verified =
-      item.content.itemContent.user_results.result.is_blue_verified;
-
-    const obj = {
-      name: user.name || "N/A",
-      username: user.screen_name || "N/A",
-      verified: verified ? "Yes" : "No",
-      profile_link: `https://twitter.com/${user.screen_name}`,
-      location: user.location || "N/A",
-      followers_count: user.followers_count ?? "N/A",
-      friends_count: user.friends_count ?? "N/A",
-      profile_image_url: user.profile_image_url_https,
-      description: user.description || "N/A",
-      created_at: user.created_at || "N/A",
-      media_count: user.media_count ?? "N/A",
-      statuses_count: user.statuses_count ?? "N/A",
-    };
-
-    Object.keys(obj).map((key) => {
-      if (!fieldsArray.includes(key)) {
-        delete obj[key];
+  const parsedList = list
+    .map((item) => {
+      const user = item.content.itemContent.user_results?.result?.legacy;
+      if (!user) {
+        return;
       }
-    });
 
-    return obj;
-  });
+      const verified =
+        item.content.itemContent.user_results.result.is_blue_verified;
+
+      const obj = {
+        name: user.name || "N/A",
+        username: user.screen_name || "N/A",
+        verified: verified ? "Yes" : "No",
+        profile_link: `https://twitter.com/${user.screen_name}`,
+        location: user.location || "N/A",
+        followers_count: user.followers_count ?? "N/A",
+        friends_count: user.friends_count ?? "N/A",
+        profile_image_url: user.profile_image_url_https,
+        description: user.description || "N/A",
+        created_at: user.created_at || "N/A",
+        media_count: user.media_count ?? "N/A",
+        statuses_count: user.statuses_count ?? "N/A",
+      };
+
+      Object.keys(obj).map((key) => {
+        if (!fieldsArray.includes(key)) {
+          delete obj[key];
+        }
+      });
+
+      return obj;
+    })
+    .filter(Boolean);
 
   return parsedList;
 };
