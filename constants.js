@@ -9,6 +9,8 @@ const MIN_DELAY = 45000;
 
 const DEFAULT_FILENAME = "export.csv";
 
+const RANDOMIZE_OFFSET_VALUE = 5000; // 5 seconds
+
 export {
   MAX_FETCH_COUNT,
   graphqlId,
@@ -17,4 +19,5 @@ export {
   UPLOAD_THRESHOLD,
   MIN_DELAY,
   DEFAULT_FILENAME,
+  RANDOMIZE_OFFSET_VALUE,
 };

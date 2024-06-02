@@ -2,6 +2,7 @@ import { Command } from "commander";
 import {
   DEFAULT_FETCH_COUNT,
   MIN_DELAY,
+  RANDOMIZE_OFFSET_VALUE,
   UPLOAD_THRESHOLD,
 } from "./constants.js";
 
@@ -35,6 +36,11 @@ program
     "Fields to save in the CSV. Comma separated list of fields",
     "name,username,verified,profile_link,location,followers_count,friends_count,profile_image_url,description,created_at,media_count,statuses_count"
   )
+  .option(
+    "--random-offset <value>",
+    "Additional random delay value while fetching followers",
+    RANDOMIZE_OFFSET_VALUE
+  )
   .parse(process.argv);
 
 const options = program.opts();
@@ -47,6 +53,7 @@ const minDelay = Number(options.minDelay);
 const fetchCount = Number(options.fetchCount);
 const csvFilename = options.output;
 const fieldsToSave = options.fieldsToSave.split(",");
+const randomOffset = options.randomOffset;
 
 const args = {
   cursor,
@@ -57,6 +64,7 @@ const args = {
   fetchCount,
   csvFilename,
   fieldsToSave,
+  randomOffset,
 };
 
 export { args };

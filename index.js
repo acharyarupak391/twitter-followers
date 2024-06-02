@@ -11,7 +11,8 @@ async function main(
   uploadThreshold,
   minDelay,
   csvFilename,
-  fieldsToSave
+  fieldsToSave,
+  randomOffset
 ) {
   const userList = [];
   const totalFetchCount = fetchAll ? 10000000 : fetchCount;
@@ -46,7 +47,7 @@ async function main(
 
     if (!cursor || list.length === 0 || totalFetched >= totalFetchCount) break;
 
-    const delayInMs = Math.floor(Math.random() * (5000 + 1)) + minDelay;
+    const delayInMs = Math.floor(Math.random() * (randomOffset + 1)) + minDelay;
     await delay(delayInMs);
   }
 
@@ -74,6 +75,7 @@ const {
   minDelay,
   csvFilename,
   fieldsToSave,
+  randomOffset,
 } = args;
 
 main(
@@ -84,5 +86,6 @@ main(
   uploadThreshold,
   minDelay,
   csvFilename,
-  fieldsToSave
+  fieldsToSave,
+  randomOffset
 );
