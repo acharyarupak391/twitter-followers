@@ -3,7 +3,7 @@ import { appendDataToCSV, delay, parseList } from "./util.js";
 import { addRows } from "./post-data.js";
 import { args } from "./args.js";
 
-async function main(
+async function main({
   initialCursor,
   userId,
   fetchAll,
@@ -12,8 +12,8 @@ async function main(
   minDelay,
   csvFilename,
   fieldsToSave,
-  randomOffset
-) {
+  randomOffset,
+}) {
   const userList = [];
   const totalFetchCount = fetchAll ? 10000000 : fetchCount;
 
@@ -73,19 +73,20 @@ const {
   fetchCount,
   uploadThreshold,
   minDelay,
+  saveToGoogleSheets,
   csvFilename,
   fieldsToSave,
   randomOffset,
 } = args;
 
-main(
-  cursor,
+main({
+  initialCursor: cursor,
   userId,
   fetchAll,
   fetchCount,
   uploadThreshold,
   minDelay,
-  csvFilename,
+  csvFilename: saveToGoogleSheets ? null : csvFilename,
   fieldsToSave,
-  randomOffset
-);
+  randomOffset,
+});

@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import {
   DEFAULT_FETCH_COUNT,
+  DEFAULT_FILENAME,
   MIN_DELAY,
   RANDOMIZE_OFFSET_VALUE,
   UPLOAD_THRESHOLD,
@@ -28,8 +29,14 @@ program
     MIN_DELAY
   )
   .option(
-    "--output <value>",
-    "Set the output filename for the CSV (if not provided, will upload to google sheets)"
+    "--save-to-sheets",
+    "Save the output to google sheets? (will override --csv-filename option)",
+    false
+  )
+  .option(
+    "--csv-filename <value>",
+    "Set the output filename for the CSV (will be ignored if --save-to-google-sheets option is set to true)",
+    DEFAULT_FILENAME
   )
   .option(
     "--fields-to-save <value>",
@@ -51,7 +58,8 @@ const fetchAll = options.all;
 const uploadThreshold = Number(options.uploadCount);
 const minDelay = Number(options.minDelay);
 const fetchCount = Number(options.fetchCount);
-const csvFilename = options.output;
+const saveToGoogleSheets = Boolean(options.saveToSheets);
+const csvFilename = options.csvFilename;
 const fieldsToSave = options.fieldsToSave.split(",");
 const randomOffset = options.randomOffset;
 
@@ -62,6 +70,7 @@ const args = {
   uploadThreshold,
   minDelay,
   fetchCount,
+  saveToGoogleSheets,
   csvFilename,
   fieldsToSave,
   randomOffset,
